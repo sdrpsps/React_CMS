@@ -1,26 +1,8 @@
 import 'antd/dist/reset.css';
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { useRoutes } from 'react-router-dom';
 import './assets/css/App.css';
-import NeedAuth from './components/NeedAuth/NeedAuth';
-import Dashboard from './pages/Dashboard/Dashboard';
-import LoginPage from './pages/LoginPage/LoginPage';
+import route from './routes';
 
-const App: React.FC = () => (
-  <div className="App">
-    <Routes>
-      {/* 登陆 */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <NeedAuth>
-            <Dashboard>hahahah</Dashboard>
-          </NeedAuth>
-        }
-      />
-    </Routes>
-  </div>
-);
-
+const App: React.FC = () => useRoutes(route);
 export default App;

@@ -20,8 +20,8 @@ export const authSlice = createSlice({
       /* 设置 token 自动失效时间 */
       // 获取当前时间戳
       const currentTime = Date.now();
-      // 设置有效时长 (一周)
-      const timeOut = 1000 * 60 * 60 * 24 * 7;
+      // 设置有效时长 (一天)
+      const timeOut = 1000 * 60 * 60 * 24;
       state.expirationTime = currentTime + timeOut;
       localStorage.setItem('expirationTime', state.expirationTime.toString());
     },
