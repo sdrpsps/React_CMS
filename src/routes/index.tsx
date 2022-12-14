@@ -1,18 +1,19 @@
 import { RouteObject } from 'react-router-dom';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import NeedAuth from '../components/NeedAuth/NeedAuth';
-import Dashboard from '../pages/Dashboard/Dashboard';
-import DashboardContent from '../components/Dashboard/DashboardContent/DashboardContent';
+import LoginPage from '@/pages/LoginPage/LoginPage';
+import NeedAuth from '@/components/NeedAuth/NeedAuth';
+import Dashboard from '@/pages/Dashboard/Dashboard';
+import DashboardContent from '@/components/Dashboard/DashboardContent/DashboardContent';
 // 加载组件
 import { Spin } from 'antd';
 // 懒加载
 import { lazy, ReactNode, Suspense } from 'react';
+const UserList = lazy(() => import('@/components/Dashboard/User/UserList'));
+const RoleList = lazy(() => import('@/components/Dashboard/Role/RoleList'));
+const PermissionList = lazy(() => import('@/components/Dashboard/Role/PermissionList'));
+
 const lazyLoad = (children: ReactNode) => {
   return <Suspense fallback={<Spin />}>{children}</Suspense>;
 };
-const UserList = lazy(() => import('../components/Dashboard/User/UserList'));
-const RoleList = lazy(() => import('../components/Dashboard/Role/RoleList'));
-const PermissionList = lazy(() => import('../components/Dashboard/Role/PermissionList'));
 
 const route: RouteObject[] = [
   {

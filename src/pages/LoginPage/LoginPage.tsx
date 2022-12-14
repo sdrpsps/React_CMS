@@ -3,10 +3,10 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '../../store/api/authAPI/authAPI';
-import { loginData } from '../../store/api/authAPI/types';
-import { login } from '../../store/reducer/authSlice';
-import classes from './LoginPage.module.scss';
+import { useLoginMutation } from '@/store/api/authAPI/authAPI';
+import { loginData } from '@/store/api/authAPI/types';
+import { login } from '@/store/reducer/authSlice';
+import styles from './LoginPage.module.scss';
 
 const LoginPage: React.FC = () => {
   const [inputData, setInputData] = useState({ username: '', password: '' });
@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className={classes.loginPage}>
+    <div className={styles.loginPage}>
       <div className="login">
         {contextHolder}
         <h1>Login</h1>
