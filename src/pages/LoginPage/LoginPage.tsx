@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '@/store/api/authAPI/authAPI';
+import { useLoginMutation } from '@/store/api/authAPI';
 import { loginData } from '@/store/api/authAPI/types';
 import { login } from '@/store/reducer/authSlice';
 import styles from './LoginPage.module.scss';

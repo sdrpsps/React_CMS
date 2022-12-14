@@ -1,8 +1,8 @@
-import { RouteObject } from 'react-router-dom';
-import LoginPage from '@/pages/LoginPage/LoginPage';
+import DashboardContent from '@/components/Dashboard/DashboardContent/DashboardContent';
 import NeedAuth from '@/components/NeedAuth/NeedAuth';
 import Dashboard from '@/pages/Dashboard/Dashboard';
-import DashboardContent from '@/components/Dashboard/DashboardContent/DashboardContent';
+import LoginPage from '@/pages/LoginPage/LoginPage';
+import { RouteObject } from 'react-router-dom';
 // 加载组件
 import { Spin } from 'antd';
 // 懒加载
