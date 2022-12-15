@@ -1,0 +1,10 @@
+.userSearch {
+  display: flex;
+  margin-bottom: 24px;
+  :global {
+    .search {
+      width: 300px;
+      margin-right: 16px;
+    }
+  }
+}

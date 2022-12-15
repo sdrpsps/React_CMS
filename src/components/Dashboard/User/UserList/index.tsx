@@ -1,10 +1,11 @@
 import React from 'react';
+import UserSearch from './UserSearch';
 import UserTable from './UserTable';
 
 const UserList: React.FC = () => {
   return (
     <div>
-      <h1>UserList</h1>
+      <UserSearch />
       <UserTable />
     </div>
   );

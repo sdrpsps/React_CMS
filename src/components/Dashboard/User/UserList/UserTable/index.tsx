@@ -1,7 +1,7 @@
 import { useGetUserListMutation, useUpdateUserStateMutation } from '@/store/api/userAPI';
 import { User } from '@/store/api/userAPI/types';
-import { CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, message, Space, Switch, Table } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { message, Space, Switch, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
 import UserDeletePop from './UserDeletePop';
@@ -13,8 +13,8 @@ const UserTable: React.FC = () => {
   // #region 获取表格
   // 用户列表
   const [data, setData] = useState<User[]>([]);
-  const [getListFn, { isLoading: getListLoading }] = useGetUserListMutation();
   /* 获取表格数据 */
+  const [getListFn, { isLoading: getListLoading }] = useGetUserListMutation();
   const getListHandler = async () => {
     try {
       const res = await getListFn({}).unwrap();
@@ -54,6 +54,7 @@ const UserTable: React.FC = () => {
         <Column title="用户名" dataIndex="username" />
         <Column title="名称" dataIndex="role_name" />
         <Column title="邮箱" dataIndex="email" />
+        <Column title="手机号" dataIndex="mobile" />
         <Column
           title="是否启用"
           dataIndex="mg_state"
