@@ -49,27 +49,12 @@ const LoginPage: React.FC = () => {
       <div className="login">
         {contextHolder}
         <h1>Login</h1>
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={onSubmit}
-          onValuesChange={onValuesChange}
-        >
+        <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onSubmit}>
           <Form.Item name="username" rules={[{ required: true, message: '请输入用户名!' }]} className="input">
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="用户名"
-              value={inputData.username}
-            />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' }]}>
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="密码"
-              value={inputData.password}
-            />
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="密码" />
           </Form.Item>
           <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>

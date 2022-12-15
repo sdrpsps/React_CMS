@@ -15,7 +15,8 @@ export const userAPI = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getUserList: builder.query({
+    // 获取用户列表
+    getUserList: builder.mutation({
       query: (data) => {
         return {
           url: `/users`,
@@ -24,7 +25,40 @@ export const userAPI = createApi({
         };
       },
     }),
+    // 修改用户启用状态
+    updateUserState: builder.mutation({
+      query: (data) => {
+        return {
+          url: `users/${data.id}/state/${data.type}`,
+          method: 'put',
+        };
+      },
+    }),
+    // 修改用户信息
+    updateUserInfo: builder.mutation({
+      query: (data) => {
+        return {
+          url: `users/${data.id}`,
+          method: 'put',
+          body: data.data,
+        };
+      },
+    }),
+    // 删除用户
+    deleteUserInfo: builder.mutation({
+      query: (data) => {
+        return {
+          url: `users/${data.id}`,
+          method: 'delete',
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUserListQuery } = userAPI;
+export const {
+  useGetUserListMutation,
+  useUpdateUserStateMutation,
+  useUpdateUserInfoMutation,
+  useDeleteUserInfoMutation,
+} = userAPI;
