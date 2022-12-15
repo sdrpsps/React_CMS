@@ -18,10 +18,11 @@ export const userAPI = createApi({
     // 获取用户列表
     getUserList: builder.mutation({
       query: (data) => {
+        console.log(data)
         return {
           url: `/users`,
           method: 'get',
-          params: { query: data.query || '', pagenum: data.pagenum || 1, pagesize: data.pagesize || 5 },
+          params: { query: data.query || '', pagenum: data.pageNum || 1, pagesize: data.pageSize || 5 },
         };
       },
     }),

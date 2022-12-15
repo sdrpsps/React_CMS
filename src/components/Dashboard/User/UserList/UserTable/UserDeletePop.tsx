@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 
 interface UserData {
   record: User;
-  onUpdateSuccess: () => void;
+  onSuccess: () => void;
 }
 
 const UserDeletePop: React.FC<UserData> = (props) => {
@@ -25,7 +25,7 @@ const UserDeletePop: React.FC<UserData> = (props) => {
       }
       setOpen(false);
       // 重新渲染表格
-      props.onUpdateSuccess();
+      props.onSuccess();
     } catch (error: any) {
       messageApi.open({
         type: 'error',

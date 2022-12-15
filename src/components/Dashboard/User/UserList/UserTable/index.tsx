@@ -3,7 +3,9 @@ import { User } from '@/store/api/userAPI/types';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { message, Space, Switch, Table } from 'antd';
 import Column from 'antd/es/table/Column';
+
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import UserDeletePop from './UserDeletePop';
 import UserEditModal from './UserEditModal';
 
@@ -13,21 +15,28 @@ const UserTable: React.FC = () => {
   // #region 获取表格
   // 用户列表
   const [data, setData] = useState<User[]>([]);
+  const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 1, total: 3 });
   /* 获取表格数据 */
   const [getListFn, { isLoading: getListLoading }] = useGetUserListMutation();
   const getListHandler = async () => {
     try {
-      const res = await getListFn({}).unwrap();
+      const res = await getListFn({ query: '', pageNum: pagination.pageNum, pageSize: pagination.pageSize }).unwrap();
       if (res.meta.status !== 200) {
         throw new Error(res.meta.msg);
       }
       setData(res.data.users);
+      // setPagination((prevState) => ({ ...prevState, total: res.data.total }));
+      // setPagination({ ...pagination, total: 3 });
     } catch (error: any) {
       messageApi.open({
         type: 'error',
         content: error.toString(),
       });
     }
+  };
+  // 分页页码或页面大小改变时
+  const onPaginationChange = (pageNum: number, pageSize: number) => {
+    setPagination((prevState) => ({ ...prevState, pageNum, pageSize }));
   };
   /* 设置表格，仅在第一次渲染组件时执行 */
   useEffect(() => {
@@ -49,7 +58,18 @@ const UserTable: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Table dataSource={data} rowKey={(record) => record.id} loading={getListLoading} bordered>
+      <Table
+        dataSource={data}
+        rowKey={(record) => record.id}
+        loading={getListLoading}
+        bordered
+        pagination={{
+          current: pagination.pageNum,
+          pageSize: pagination.pageSize,
+          total: pagination.total,
+          onChange: onPaginationChange,
+        }}
+      >
         <Column title="ID" dataIndex="id" />
         <Column title="用户名" dataIndex="username" />
         <Column title="名称" dataIndex="role_name" />
@@ -74,8 +94,8 @@ const UserTable: React.FC = () => {
           title="操作"
           render={(_, record: User) => (
             <Space size="middle">
-              <UserEditModal record={record} onUpdateSuccess={getListHandler} />
-              <UserDeletePop record={record} onUpdateSuccess={getListHandler} />
+              <UserEditModal record={record} onSuccess={getListHandler} />
+              <UserDeletePop record={record} onSuccess={getListHandler} />
             </Space>
           )}
         />

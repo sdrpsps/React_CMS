@@ -1,12 +1,12 @@
-import React, { PropsWithoutRef, useEffect, useRef, useState } from 'react';
-import { Button, Form, Input, message, Modal } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
-import { User } from '@/store/api/userAPI/types';
 import { useUpdateUserInfoMutation } from '@/store/api/userAPI';
+import { User } from '@/store/api/userAPI/types';
+import { EditOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 interface UserData {
   record: User;
-  onUpdateSuccess: () => void;
+  onSuccess: () => void;
 }
 
 const UserEditModal: React.FC<UserData> = (props) => {
@@ -31,7 +31,7 @@ const UserEditModal: React.FC<UserData> = (props) => {
       }
       setOpen(false);
       // 重新渲染表格
-      props.onUpdateSuccess();
+      props.onSuccess();
     } catch (error: any) {
       messageApi.open({
         type: 'error',
