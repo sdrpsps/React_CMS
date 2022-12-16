@@ -1,0 +1,13 @@
+.userList {
+  :global {
+    .top {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 24px;
+      .search {
+        width: 300px;
+        margin-right: 16px;
+      }
+    }
+  }
+}

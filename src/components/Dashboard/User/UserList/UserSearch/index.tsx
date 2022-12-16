@@ -3,21 +3,25 @@ import { Input, Button } from 'antd';
 import styles from './index.module.scss';
 const { Search } = Input;
 
-const UserSearch: React.FC = (props) => {
+interface searchQuery {
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
+  getListLoading: boolean;
+}
+
+const UserSearch: React.FC<searchQuery> = (props) => {
   const onSearch = (value: string) => {
-    // props.getListFn({ query: value });
+    props.setPageNum(1);
+    props.setQuery(value);
   };
   return (
-    <div className={styles.userSearch}>
-      <Search
-        className="search"
-        placeholder="请输入要搜索的用户名"
-        onSearch={onSearch}
-        // loading={props.getListLoading}
-        enterButton
-      />
-      <Button type="primary">添加用户</Button>
-    </div>
+    <Search
+      className="search"
+      placeholder="请输入要搜索的用户名"
+      onSearch={onSearch}
+      loading={props.getListLoading}
+      enterButton
+    />
   );
 };
 

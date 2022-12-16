@@ -14,18 +14,18 @@ const UserEditModal: React.FC<UserData> = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [open, setOpen] = useState(false);
 
-  const [form] = Form.useForm();
+  const [updateForm] = Form.useForm();
   // 写入父组件传来的数据到表单中
   useEffect(() => {
-    form.setFieldsValue(props.record);
-  }, [form]);
+    updateForm.setFieldsValue(props.record);
+  }, [updateForm]);
   // 导入更新用户信息钩子
   const [updateInfoFn, { isLoading }] = useUpdateUserInfoMutation();
   // 点击确认
   const handleOk = async () => {
     // 获取当前表单数据并提交
     try {
-      const res = await updateInfoFn({ id: props.record.id, data: form.getFieldsValue() }).unwrap();
+      const res = await updateInfoFn({ id: props.record.id, data: updateForm.getFieldsValue() }).unwrap();
       if (res.meta.status !== 200) {
         throw new Error(res.meta.msg);
       }
@@ -53,7 +53,7 @@ const UserEditModal: React.FC<UserData> = (props) => {
         // 强制模态框渲染
         forceRender
       >
-        <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} form={form}>
+        <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} form={updateForm} autoComplete="off">
           <Form.Item label="用户名" name="username" rules={[{ required: true }]}>
             <Input disabled />
           </Form.Item>

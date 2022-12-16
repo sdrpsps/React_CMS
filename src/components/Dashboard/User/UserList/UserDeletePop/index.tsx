@@ -1,4 +1,4 @@
-import { useDeleteUserInfoMutation } from '@/store/api/userAPI';
+import { useDeleteUserMutation } from '@/store/api/userAPI';
 import { User } from '@/store/api/userAPI/types';
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Popconfirm } from 'antd';
@@ -14,7 +14,7 @@ const UserDeletePop: React.FC<UserData> = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [open, setOpen] = useState(false);
   // 导入更新用户信息钩子
-  const [deleteFn, { isLoading }] = useDeleteUserInfoMutation();
+  const [deleteFn, { isLoading }] = useDeleteUserMutation();
   // 点击确认
   const confirm = async () => {
     // 获取当前表单数据并提交

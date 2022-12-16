@@ -45,11 +45,21 @@ export const userAPI = createApi({
       },
     }),
     // 删除用户
-    deleteUserInfo: builder.mutation({
+    deleteUser: builder.mutation({
       query: (data) => {
         return {
           url: `users/${data.id}`,
           method: 'delete',
+        };
+      },
+    }),
+    // 新增用户
+    addUser: builder.mutation({
+      query: (data) => {
+        return {
+          url: `users`,
+          method: 'post',
+          body: data,
         };
       },
     }),
@@ -60,5 +70,6 @@ export const {
   useGetUserListMutation,
   useUpdateUserStateMutation,
   useUpdateUserInfoMutation,
-  useDeleteUserInfoMutation,
+  useDeleteUserMutation,
+  useAddUserMutation,
 } = userAPI;
