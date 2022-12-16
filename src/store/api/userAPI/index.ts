@@ -18,7 +18,6 @@ export const userAPI = createApi({
     // 获取用户列表
     getUserList: builder.mutation({
       query: (data) => {
-        console.log(data)
         return {
           url: `/users`,
           method: 'get',

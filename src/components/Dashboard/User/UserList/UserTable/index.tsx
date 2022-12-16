@@ -1,11 +1,9 @@
 import { useGetUserListMutation, useUpdateUserStateMutation } from '@/store/api/userAPI';
 import { User } from '@/store/api/userAPI/types';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { message, Space, Switch, Table } from 'antd';
+import { Space, Switch, Table, message } from 'antd';
 import Column from 'antd/es/table/Column';
-
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import UserDeletePop from './UserDeletePop';
 import UserEditModal from './UserEditModal';
 
@@ -15,18 +13,19 @@ const UserTable: React.FC = () => {
   // #region 获取表格
   // 用户列表
   const [data, setData] = useState<User[]>([]);
-  const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 1, total: 3 });
+  const [pageNum, setPageNum] = useState(1);
+  const [pageSize, setPageSize] = useState(1);
+  const [total, setToal] = useState(0);
   /* 获取表格数据 */
   const [getListFn, { isLoading: getListLoading }] = useGetUserListMutation();
   const getListHandler = async () => {
     try {
-      const res = await getListFn({ query: '', pageNum: pagination.pageNum, pageSize: pagination.pageSize }).unwrap();
+      const res = await getListFn({ query: '', pageNum, pageSize }).unwrap();
       if (res.meta.status !== 200) {
         throw new Error(res.meta.msg);
       }
-      setData(res.data.users);
-      // setPagination((prevState) => ({ ...prevState, total: res.data.total }));
-      // setPagination({ ...pagination, total: 3 });
+      setData(res.data.users); // 设置数据
+      setToal(res.data.total); // 设置总页数
     } catch (error: any) {
       messageApi.open({
         type: 'error',
@@ -36,12 +35,13 @@ const UserTable: React.FC = () => {
   };
   // 分页页码或页面大小改变时
   const onPaginationChange = (pageNum: number, pageSize: number) => {
-    setPagination((prevState) => ({ ...prevState, pageNum, pageSize }));
+    setPageNum(pageNum); // 设置页码
+    setPageSize(pageSize); // 设置页面大小
   };
-  /* 设置表格，仅在第一次渲染组件时执行 */
+  /* 设置表格，仅在第一次渲染组件时和分页修改时执行 */
   useEffect(() => {
     getListHandler();
-  }, []);
+  }, [pageNum, pageSize]);
   // #endregion
 
   /* 即将移到新组件中 */
@@ -50,8 +50,8 @@ const UserTable: React.FC = () => {
   /* 记录当前修改的用户 ID 用于判断开关的 Loading 状态 */
   const [requestID, setRequestID] = useState(0);
   const onSwitch = (checked: boolean, id: number) => {
-    setRequestID(id);
-    setData((prev) => prev.map((item) => (item.id === id ? { ...item, mg_state: checked } : item)));
+    setRequestID(id); // 设置当前用户 ID
+    setData((prev) => prev.map((item) => (item.id === id ? { ...item, mg_state: checked } : item))); // 修改用户状态
     updateStateFn({ id, type: checked });
   };
 
@@ -64,9 +64,9 @@ const UserTable: React.FC = () => {
         loading={getListLoading}
         bordered
         pagination={{
-          current: pagination.pageNum,
-          pageSize: pagination.pageSize,
-          total: pagination.total,
+          current: pageNum,
+          pageSize,
+          total,
           onChange: onPaginationChange,
         }}
       >
