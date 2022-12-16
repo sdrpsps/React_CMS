@@ -1,6 +1,5 @@
+import { Input } from 'antd';
 import React from 'react';
-import { Input, Button } from 'antd';
-import styles from './index.module.scss';
 const { Search } = Input;
 
 interface searchQuery {

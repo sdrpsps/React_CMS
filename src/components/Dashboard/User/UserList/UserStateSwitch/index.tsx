@@ -4,13 +4,13 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Switch } from 'antd';
 import React, { useState } from 'react';
 
-interface UserData {
+interface userData {
   userState: boolean;
   record: User;
   setData: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
-const UserStateSwitch: React.FC<UserData> = (props) => {
+const UserStateSwitch: React.FC<userData> = (props) => {
   // 修改用户状态
   const [updateStateFn, { isLoading: updateStateLoading }] = useUpdateUserStateMutation();
   /* 记录当前修改的用户 ID 用于判断开关的 Loading 状态 */

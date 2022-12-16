@@ -4,12 +4,12 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Popconfirm } from 'antd';
 import React, { useState } from 'react';
 
-interface UserData {
+interface userData {
   record: User;
   onSuccess: () => void;
 }
 
-const UserDeletePop: React.FC<UserData> = (props) => {
+const UserDeletePop: React.FC<userData> = (props) => {
   // 全局提示
   const [messageApi, contextHolder] = message.useMessage();
   const [open, setOpen] = useState(false);

@@ -3,11 +3,11 @@ import { UserAddOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal, message } from 'antd';
 import React, { useState } from 'react';
 
-interface UserData {
+interface userData {
   onSuccess: () => void;
 }
 
-const UserAddModal: React.FC<UserData> = (props) => {
+const UserAddModal: React.FC<userData> = (props) => {
   // 全局提示
   const [messageApi, contextHolder] = message.useMessage();
   const [addForm] = Form.useForm();

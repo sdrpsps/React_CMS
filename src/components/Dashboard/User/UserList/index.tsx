@@ -1,18 +1,23 @@
 import { useGetUserListMutation } from '@/store/api/userAPI';
 import { User } from '@/store/api/userAPI/types';
-import { Space, Table, message } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Button, ConfigProvider, Empty, Space, Table, message } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
+import UserAddModal from './UserAddModal';
 import UserDeletePop from './UserDeletePop';
 import UserEditModal from './UserEditModal';
-import UserStateSwitch from './UserStateSwitch';
 import UserSearch from './UserSearch';
-import UserAddModal from './UserAddModal';
+import UserStateSwitch from './UserStateSwitch';
 import styles from './index.module.scss';
 
-const UserTable: React.FC = () => {
+const userList: React.FC = () => {
   // 全局提示
   const [messageApi, contextHolder] = message.useMessage();
+  // 表格空状态
+  const tableEmptyRender = () => {
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={<>暂无对应数据</>} />;
+  };
   // #region 获取表格
   // 用户列表
   const [data, setData] = useState<User[]>([]);
@@ -49,7 +54,10 @@ const UserTable: React.FC = () => {
     getListHandler();
   }, [query, pageNum, pageSize]);
   // #endregion
-
+  // #region 修改用户模态框
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [updateUserID, setUpdateUserID] = useState(0);
+  // #endregion
   return (
     <div className={styles.userList}>
       {contextHolder}
@@ -60,45 +68,63 @@ const UserTable: React.FC = () => {
       </div>
       {/* 表格 */}
       <div className="content">
-        <Table
-          dataSource={data}
-          rowKey={(record) => record.id}
-          loading={getListLoading}
-          bordered
-          pagination={{
-            current: pageNum,
-            pageSize,
-            total,
-            onChange: onPaginationChange,
-          }}
-        >
-          <Column title="ID" dataIndex="id" />
-          <Column title="用户名" dataIndex="username" />
-          <Column title="名称" dataIndex="role_name" />
-          <Column title="邮箱" dataIndex="email" />
-          <Column title="手机号" dataIndex="mobile" />
-          <Column
-            title="是否启用"
-            dataIndex="mg_state"
-            render={(userState, record: User) => (
-              <Space size="middle">
-                <UserStateSwitch userState={userState} record={record} setData={setData} />
-              </Space>
-            )}
-          />
-          <Column
-            title="操作"
-            render={(_, record: User) => (
-              <Space size="middle">
-                <UserEditModal record={record} onSuccess={getListHandler} key={Math.random()} />
-                <UserDeletePop record={record} onSuccess={getListHandler} />
-              </Space>
-            )}
-          />
-        </Table>
+        <ConfigProvider renderEmpty={tableEmptyRender}>
+          <Table
+            dataSource={data}
+            rowKey={(record) => record.id}
+            loading={getListLoading}
+            bordered
+            pagination={{
+              current: pageNum,
+              pageSize,
+              total,
+              onChange: onPaginationChange,
+            }}
+          >
+            <Column title="ID" dataIndex="id" />
+            <Column title="用户名" dataIndex="username" />
+            <Column title="名称" dataIndex="role_name" />
+            <Column title="邮箱" dataIndex="email" />
+            <Column title="手机号" dataIndex="mobile" />
+            <Column
+              title="是否启用"
+              dataIndex="mg_state"
+              render={(userState, record: User) => (
+                <Space size="middle">
+                  <UserStateSwitch userState={userState} record={record} setData={setData} />
+                </Space>
+              )}
+            />
+            <Column
+              title="操作"
+              render={(_, record: User) => (
+                <Space size="middle">
+                  <Button
+                    type="primary"
+                    icon={<EditOutlined />}
+                    onClick={() => {
+                      setUpdateModalOpen(true);
+                      setUpdateUserID(record.id);
+                    }}
+                  />
+                  <UserDeletePop record={record} onSuccess={getListHandler} />
+                </Space>
+              )}
+            />
+          </Table>
+        </ConfigProvider>
+      </div>
+      {/* 修改用户信息模态框 */}
+      <div className="modal">
+        <UserEditModal
+          open={updateModalOpen}
+          setOpen={setUpdateModalOpen}
+          userData={data.filter((item) => item.id === updateUserID)[0]}
+          onSuccess={getListHandler}
+        />
       </div>
     </div>
   );
 };
 
-export default UserTable;
+export default userList;
