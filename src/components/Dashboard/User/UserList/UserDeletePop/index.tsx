@@ -11,7 +11,7 @@ interface userData {
 
 const UserDeletePop: React.FC<userData> = (props) => {
   // 全局提示
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
   const [open, setOpen] = useState(false);
   // 导入更新用户信息钩子
   const [deleteFn, { isLoading }] = useDeleteUserMutation();
@@ -35,19 +35,16 @@ const UserDeletePop: React.FC<userData> = (props) => {
   };
 
   return (
-    <>
-      {contextHolder}
-      <Popconfirm
-        title="确定删除用户吗?"
-        open={open}
-        onConfirm={confirm}
-        okButtonProps={{ loading: isLoading }}
-        okText="Yes"
-        cancelText="No"
-      >
-        <Button danger type="primary" icon={<DeleteOutlined />} onClick={() => setOpen(true)} />
-      </Popconfirm>
-    </>
+    <Popconfirm
+      title="确定删除用户吗?"
+      open={open}
+      onConfirm={confirm}
+      okButtonProps={{ loading: isLoading }}
+      okText="Yes"
+      cancelText="No"
+    >
+      <Button danger type="primary" icon={<DeleteOutlined />} onClick={() => setOpen(true)} />
+    </Popconfirm>
   );
 };
 

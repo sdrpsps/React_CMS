@@ -9,7 +9,7 @@ interface userData {
 
 const UserAddModal: React.FC<userData> = (props) => {
   // 全局提示
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
   const [addForm] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -38,7 +38,6 @@ const UserAddModal: React.FC<userData> = (props) => {
 
   return (
     <>
-      {contextHolder}
       <Button type="primary" icon={<UserAddOutlined />} onClick={() => setOpen(true)}>
         添加用户
       </Button>
