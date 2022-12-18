@@ -1,3 +1,4 @@
+import useAutoLogout from '@/hooks/useAutoLogout';
 import { VideoCameraOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ const Dashboard: React.FC = () => {
   const onMenuClick = ({ key }: any) => {
     navigate(key);
   };
+
   // 菜单根据路由高亮
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -47,6 +49,8 @@ const Dashboard: React.FC = () => {
     setSelectedKeys([location.pathname]);
   }, [location.pathname]);
 
+  // 自定义自动登出钩子
+  useAutoLogout();
   return (
     <Layout hasSider>
       <Sider
