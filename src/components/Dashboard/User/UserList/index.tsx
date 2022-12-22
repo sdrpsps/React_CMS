@@ -1,6 +1,6 @@
 import { useGetUserListMutation } from '@/store/api/userAPI';
 import { User } from '@/store/api/userAPI/types';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, IdcardOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Empty, Space, Table, message } from 'antd';
 import Column from 'antd/es/table/Column';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import UserEditModal from './UserEditModal';
 import UserSearch from './UserSearch';
 import UserStateSwitch from './UserStateSwitch';
 import styles from './index.module.scss';
+import UserRoleModal from './UserRoleModal';
 
 const userList: React.FC = () => {
   // 全局提示
@@ -54,9 +55,10 @@ const userList: React.FC = () => {
     getListHandler();
   }, [query, pageNum, pageSize]);
   // #endregion
-  // #region 修改用户模态框
+  // #region 修改用户和角色模态框
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const [updateUserID, setUpdateUserID] = useState(0);
+  const [roleModalOpen, setRoleModalOpen] = useState(false);
+  const [userID, setUserID] = useState(0);
   // #endregion
   return (
     <div className={styles.userList}>
@@ -83,7 +85,7 @@ const userList: React.FC = () => {
           >
             <Column title="ID" dataIndex="id" />
             <Column title="用户名" dataIndex="username" />
-            <Column title="名称" dataIndex="role_name" />
+            <Column title="角色" dataIndex="role_name" />
             <Column title="邮箱" dataIndex="email" />
             <Column title="手机号" dataIndex="mobile" />
             <Column
@@ -104,7 +106,15 @@ const userList: React.FC = () => {
                     icon={<EditOutlined />}
                     onClick={() => {
                       setUpdateModalOpen(true);
-                      setUpdateUserID(record.id);
+                      setUserID(record.id);
+                    }}
+                  />
+                  <Button
+                    type="primary"
+                    icon={<IdcardOutlined />}
+                    onClick={() => {
+                      setRoleModalOpen(true);
+                      setUserID(record.id);
                     }}
                   />
                   <UserDeletePop record={record} onSuccess={getListHandler} />
@@ -119,7 +129,13 @@ const userList: React.FC = () => {
         <UserEditModal
           open={updateModalOpen}
           setOpen={setUpdateModalOpen}
-          userData={data.filter((item) => item.id === updateUserID)[0]}
+          userData={data.filter((item) => item.id === userID)[0]}
+          onSuccess={getListHandler}
+        />
+        <UserRoleModal
+          open={roleModalOpen}
+          setOpen={setRoleModalOpen}
+          userData={data.filter((item) => item.id === userID)[0]}
           onSuccess={getListHandler}
         />
       </div>

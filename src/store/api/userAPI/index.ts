@@ -63,6 +63,20 @@ export const userAPI = createApi({
         };
       },
     }),
+    // 获取角色列表
+    getRoleList: builder.mutation({
+      query: (data) => `/roles`,
+    }),
+    // 修改用户角色
+    updateUserRole: builder.mutation({
+      query: (data) => {
+        return {
+          url: `users/${data.id}/role`,
+          method: 'put',
+          body: { rid: data.rid },
+        };
+      },
+    }),
   }),
 });
 
@@ -72,4 +86,6 @@ export const {
   useUpdateUserInfoMutation,
   useDeleteUserMutation,
   useAddUserMutation,
+  useGetRoleListMutation,
+  useUpdateUserRoleMutation,
 } = userAPI;
