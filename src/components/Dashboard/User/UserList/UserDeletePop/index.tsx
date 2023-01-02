@@ -41,6 +41,7 @@ const UserDeletePop: React.FC<userData> = (props) => {
         title="确定删除用户吗?"
         open={open}
         onConfirm={confirm}
+        onCancel={() => setOpen(false)}
         okButtonProps={{ loading: isLoading }}
         okText="Yes"
         cancelText="No"
